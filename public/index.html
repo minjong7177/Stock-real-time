@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MarketView</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <header class="topbar">
+    <div class="logo">MarketView</div>
+    <div class="search-wrap">
+      <select id="market">
+        <option value="stock">주식</option>
+        <option value="crypto">암호화폐</option>
+      </select>
+      <input id="search-input" type="text" placeholder="티커 검색 (AAPL, BTC, 005930.KS …)" />
+      <button onclick="doSearch()">검색</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- 즐겨찾기 사이드바 -->
+    <aside class="sidebar">
+      <div class="sidebar-title">즐겨찾기</div>
+      <div id="fav-list"></div>
+      <p id="fav-empty" class="empty-msg">즐겨찾기가 없습니다</p>
+    </aside>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="content">
+      <div id="placeholder" class="placeholder">
+        <p>티커를 검색하거나 즐겨찾기를 선택하세요</p>
+        <p class="hint">예시: AAPL · TSLA · 005930.KS · BTC · ETH</p>
+      </div>
+
+      <div id="detail" class="hidden">
+        <!-- 종목 헤더 -->
+        <div class="detail-header">
+          <div>
+            <div class="detail-meta-row">
+              <span id="d-symbol" class="d-symbol"></span>
+              <span id="d-name" class="d-name"></span>
+              <span id="d-market-badge" class="badge"></span>
+            </div>
+            <div class="detail-price-row">
+              <span id="d-price" class="d-price"></span>
+              <span id="d-change" class="change-badge"></span>
+            </div>
+          </div>
+          <button id="fav-btn" class="fav-btn" onclick="toggleFavorite()">+ 즐겨찾기</button>
+        </div>
+
+        <!-- 지표 카드 -->
+        <div class="metrics">
+          <div class="metric"><div class="metric-label">시가</div><div id="m-open" class="metric-val">—</div></div>
+          <div class="metric"><div class="metric-label">고가</div><div id="m-high" class="metric-val">—</div></div>
+          <div class="metric"><div class="metric-label">저가</div><div id="m-low"  class="metric-val">—</div></div>
+          <div class="metric"><div class="metric-label">거래량</div><div id="m-vol"  class="metric-val">—</div></div>
+        </div>
+
+        <!-- 기간 / 차트 타입 버튼 -->
+        <div class="controls-row">
+          <div class="period-btns" id="period-btns">
+            <button class="pbtn" onclick="setPeriod('1D')">1D</button>
+            <button class="pbtn active" onclick="setPeriod('1W')">1W</button>
+            <button class="pbtn" onclick="setPeriod('1M')">1M</button>
+            <button class="pbtn" onclick="setPeriod('3M')">3M</button>
+            <button class="pbtn" onclick="setPeriod('1Y')">1Y</button>
+          </div>
+          <div class="period-btns">
+            <button class="pbtn active" id="btn-candle" onclick="setChartType('candlestick')">캔들</button>
+            <button class="pbtn" id="btn-line" onclick="setChartType('line')">라인</button>
+          </div>
+        </div>
+
+        <!-- 차트 -->
+        <div class="chart-box">
+          <div id="chart-loading" class="chart-loading">로딩 중...</div>
+          <div style="position:relative;width:100%;height:320px">
+            <canvas id="priceChart" role="img" aria-label="주가 캔들 차트"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.1.1/dist/chartjs-chart-financial.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
