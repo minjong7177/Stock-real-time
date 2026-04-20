@@ -53,7 +53,7 @@ function renderHeader(data, market) {
     : v => '$' + v.toLocaleString();
 
   document.getElementById('d-symbol').textContent = data.symbol;
-  document.getElementById('d-name').textContent = market === 'crypto' ? data.coin_id : '';
+  document.getElementById('d-name').textContent = data.name || '';
   document.getElementById('d-market-badge').textContent = market === 'stock' ? '주식' : '암호화폐';
   document.getElementById('d-price').textContent = fmt(data.price);
 
