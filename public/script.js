@@ -175,7 +175,7 @@ function chartOptions(candles) {
 function setPeriod(p) {
   currentPeriod = p;
   document.querySelectorAll('#period-btns .pbtn').forEach(b => {
-    b.classList.toggle('active', b.textContent === p);
+    b.classList.toggle('active', b.textContent.trim() === p);
   });
   if (currentSymbol) loadCandles();
 }
